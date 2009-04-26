@@ -1,4 +1,4 @@
 category: Gnome Net
-requires: cygwin GConf2 libgconf2_4 libgdk_pixbuf2.0_0 libglade2.0_0 libglib2.0_0 libgnome-keyring0 libgtk-vnc1.0_0 libgtk2.0_0 libintl8 libX11_6
+requires: cygwin GConf2 libgcc1 libgconf2_4 libgdk_pixbuf2.0_0 libglade2.0_0 libglib2.0_0 libgnome-keyring0 libgtk-vnc1.0_0 libgtk2.0_0 libintl8 libX11_6 libxml2
 sdesc: "GNOME VNC client"
 ldesc: "This is vinagre, a VNC client for the GNOME Desktop."
