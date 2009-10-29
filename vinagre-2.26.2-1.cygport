@@ -1,8 +1,0 @@
-inherit gnome2
-
-DESCRIPTION="GNOME VNC client"
-HOMEPAGE="http://projects.gnome.org/vinagre/"
-
-PATCH_URI="2.24.2-as-needed.patch"
-
-CYGCONF_ARGS="--libexecdir=/usr/lib/panel-2.0 --disable-avahi"

@@ -1,4 +1,4 @@
 category: Gnome Net
-requires: GConf2 libgcc1 libgconf2_4 libgdk_pixbuf2.0_0 libglade2.0_0 libglib2.0_0 libgnome-keyring0 libgtk-vnc1.0_0 libgtk2.0_0 libintl8 libX11_6 libxml2
-sdesc: "GNOME VNC client"
-ldesc: "This is vinagre, a VNC client for the GNOME Desktop."
+requires: GConf2 libdbus-glib_1_2 libgcc1 libgconf2_4 libgdk_pixbuf2.0_0 libglib2.0_0 libgnome-keyring0 libgtk-vnc1.0_0 libgtk2.0_0 libintl8 libtelepathy-glib0 libvte9 libX11_6 libxml2 openssh
+sdesc: "GNOME VNC and SSH client"
+ldesc: "This is vinagre, a VNC and SSH client for the GNOME Desktop."

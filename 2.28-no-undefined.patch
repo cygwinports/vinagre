@@ -1,0 +1,65 @@
+--- origsrc/vinagre-2.28.1/configure.ac	2009-10-19 06:32:54.000000000 -0500
++++ src/vinagre-2.28.1/configure.ac	2009-10-29 11:54:49.586475600 -0500
+@@ -174,8 +174,8 @@ fi
+ AC_SUBST(ACTIVE_PLUGINS)
+ 
+ VINAGRE_IMPLIB="-lvinagre-${VINAGRE_API_VERSION}"
+-PLUGIN_LIBTOOL_FLAGS="-module -avoid-version"
+-LOADER_LIBTOOL_FLAGS="-module -avoid-version"
++PLUGIN_LIBTOOL_FLAGS="-module -avoid-version -no-undefined"
++LOADER_LIBTOOL_FLAGS="-module -avoid-version -no-undefined"
+ 
+ AC_SUBST(VINAGRE_IMPLIB)
+ AC_SUBST(PLUGIN_LIBTOOL_FLAGS)
+--- origsrc/vinagre-2.28.1/plugin-loaders/c/Makefile.am	2009-07-30 09:04:40.000000000 -0500
++++ src/vinagre-2.28.1/plugin-loaders/c/Makefile.am	2009-10-29 11:55:35.778156100 -0500
+@@ -19,6 +19,6 @@ libcloader_la_SOURCES = \
+ 	$(NOINST_H_FILES)
+ 
+ libcloader_la_LDFLAGS = $(LOADER_LIBTOOL_FLAGS)
+-libcloader_la_LIBADD = $(VINAGRE_LIBS)
++libcloader_la_LIBADD = $(top_builddir)/vinagre/libvinagre.la $(VINAGRE_LIBS)
+ 
+ -include $(top_srcdir)/git.mk
+--- origsrc/vinagre-2.28.1/plugins/ssh/Makefile.am	2009-08-01 13:01:08.000000000 -0500
++++ src/vinagre-2.28.1/plugins/ssh/Makefile.am	2009-10-29 11:55:15.638521000 -0500
+@@ -15,7 +15,7 @@ libssh_la_SOURCES = 						\
+ 	vinagre-ssh-tab.h vinagre-ssh-tab.c
+ 
+ libssh_la_LDFLAGS = $(PLUGIN_LIBTOOL_FLAGS)
+-libssh_la_LIBADD  = $(SSH_LIBS)
++libssh_la_LIBADD  = $(top_builddir)/vinagre/libvinagre.la $(SSH_LIBS)
+ 
+ plugin_in_files = ssh.vinagre-plugin.desktop.in
+ 
+--- origsrc/vinagre-2.28.1/plugins/vnc/Makefile.am	2009-10-19 06:18:00.000000000 -0500
++++ src/vinagre-2.28.1/plugins/vnc/Makefile.am	2009-10-29 11:55:43.890170300 -0500
+@@ -15,7 +15,7 @@ libvnc_la_SOURCES = 						\
+ 	vinagre-vnc-tab.h vinagre-vnc-tab.c
+ 
+ libvnc_la_LDFLAGS = $(PLUGIN_LIBTOOL_FLAGS)
+-libvnc_la_LIBADD  = $(VNC_LIBS)
++libvnc_la_LIBADD  = $(top_builddir)/vinagre/libvinagre.la $(VNC_LIBS)
+ 
+ #uidir = $(VINAGRE_PLUGINS_DATA_DIR)/vnc
+ #ui_DATA = vnc.ui
+--- origsrc/vinagre-2.28.1/vinagre/Makefile.am	2009-08-06 13:11:18.000000000 -0500
++++ src/vinagre-2.28.1/vinagre/Makefile.am	2009-10-29 12:26:08.710553700 -0500
+@@ -60,7 +60,7 @@ header_DATA = $(INST_H_FILES)
+ # The main library
+ ##############################
+ 
+-noinst_LTLIBRARIES = libvinagre.la
++lib_LTLIBRARIES = libvinagre.la
+ 
+ libvinagre_la_SOURCES = \
+   bacon-message-connection.c  \
+@@ -243,7 +243,7 @@ BUILT_SOURCES = \
+ if TELEPATHY
+ 
+ INCLUDES += $(TELEPATHY_CFLAGS)
+-vinagre_LDADD += $(TELEPATHY_LIBS)
++libvinagre_la_LIBADD += $(TELEPATHY_LIBS)
+ libvinagre_la_SOURCES += \
+ 	vinagre-tubes-manager.c vinagre-tubes-manager.h		\
+ 	vinagre-tube-handler.c vinagre-tube-handler.h		\
