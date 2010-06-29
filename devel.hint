@@ -1,0 +1,5 @@
+category: Gnome Net
+requires: vinagre libglib2.0-devel libgtk2.0-devel libxml2-devel
+external-source: vinagre
+sdesc: "GNOME VNC and SSH client (plugin development)"
+ldesc: "This is vinagre, a VNC and SSH client for the GNOME Desktop."

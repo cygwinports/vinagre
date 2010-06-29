@@ -1,0 +1,73 @@
+--- origsrc/vinagre-2.30.2/configure.ac	2010-06-21 07:54:07.000000000 -0500
++++ src/vinagre-2.30.2/configure.ac	2010-06-28 17:52:09.419946600 -0500
+@@ -239,8 +239,8 @@ fi
+ AC_SUBST(ACTIVE_PLUGINS)
+ 
+ VINAGRE_IMPLIB="-lvinagre-${VINAGRE_API_VERSION}"
+-PLUGIN_LIBTOOL_FLAGS="-module -avoid-version"
+-LOADER_LIBTOOL_FLAGS="-module -avoid-version"
++PLUGIN_LIBTOOL_FLAGS="-module -avoid-version -no-undefined"
++LOADER_LIBTOOL_FLAGS="-module -avoid-version -no-undefined"
+ 
+ AC_SUBST(VINAGRE_IMPLIB)
+ AC_SUBST(PLUGIN_LIBTOOL_FLAGS)
+--- origsrc/vinagre-2.30.2/data/vinagre.pc.in	2010-04-08 20:00:45.000000000 -0500
++++ src/vinagre-2.30.2/data/vinagre.pc.in	2010-06-28 21:58:04.109866600 -0500
+@@ -8,4 +8,4 @@ Description: vinagre
+ Requires: gtk+-2.0 libxml-2.0
+ Version: @VERSION@
+ Cflags: -I${includedir}/vinagre-@VINAGRE_API_VERSION@
+-Libs:
++Libs: -L${libdir} -lvinagre
+--- origsrc/vinagre-2.30.2/plugin-loaders/c/Makefile.am	2010-04-08 20:00:45.000000000 -0500
++++ src/vinagre-2.30.2/plugin-loaders/c/Makefile.am	2010-06-28 17:52:09.426947000 -0500
+@@ -19,6 +19,6 @@ libcloader_la_SOURCES = \
+ 	$(NOINST_H_FILES)
+ 
+ libcloader_la_LDFLAGS = $(LOADER_LIBTOOL_FLAGS)
+-libcloader_la_LIBADD = $(VINAGRE_LIBS)
++libcloader_la_LIBADD = $(top_builddir)/vinagre/libvinagre.la $(VINAGRE_LIBS)
+ 
+ -include $(top_srcdir)/git.mk
+--- origsrc/vinagre-2.30.2/plugins/ssh/Makefile.am	2010-04-08 20:00:45.000000000 -0500
++++ src/vinagre-2.30.2/plugins/ssh/Makefile.am	2010-06-28 17:52:09.430947300 -0500
+@@ -15,7 +15,7 @@ libssh_la_SOURCES = 						\
+ 	vinagre-ssh-tab.h vinagre-ssh-tab.c
+ 
+ libssh_la_LDFLAGS = $(PLUGIN_LIBTOOL_FLAGS)
+-libssh_la_LIBADD  = $(SSH_LIBS)
++libssh_la_LIBADD  = $(top_builddir)/vinagre/libvinagre.la $(SSH_LIBS)
+ 
+ plugin_in_files = ssh.vinagre-plugin.desktop.in
+ 
+--- origsrc/vinagre-2.30.2/plugins/vnc/Makefile.am	2010-04-29 09:11:36.000000000 -0500
++++ src/vinagre-2.30.2/plugins/vnc/Makefile.am	2010-06-28 17:52:09.435947500 -0500
+@@ -22,7 +22,7 @@ libvnc_la_SOURCES += if/ifaddrs.h if/get
+ endif
+ 
+ libvnc_la_LDFLAGS = $(PLUGIN_LIBTOOL_FLAGS)
+-libvnc_la_LIBADD  = $(VNC_LIBS)
++libvnc_la_LIBADD  = $(top_builddir)/vinagre/libvinagre.la $(VNC_LIBS)
+ 
+ uidir = $(VINAGRE_PLUGINS_DATA_DIR)/vnc
+ ui_DATA = vnc.ui
+--- origsrc/vinagre-2.30.2/vinagre/Makefile.am	2010-06-21 07:51:04.000000000 -0500
++++ src/vinagre-2.30.2/vinagre/Makefile.am	2010-06-28 17:52:09.442947900 -0500
+@@ -65,7 +65,7 @@ header_DATA = $(INST_H_FILES)
+ # The main library
+ ##############################
+ 
+-noinst_LTLIBRARIES = libvinagre.la
++lib_LTLIBRARIES = libvinagre.la
+ 
+ handwritten_sources = \
+   bacon-message-connection.c  \
+@@ -281,7 +281,7 @@ BUILT_SOURCES = \
+ if TELEPATHY
+ 
+ INCLUDES += $(TELEPATHY_CFLAGS)
+-vinagre_LDADD += $(TELEPATHY_LIBS)
++libvinagre_la_LIBADD += $(TELEPATHY_LIBS)
+ handwritten_sources += \
+ 	vinagre-tubes-manager.c vinagre-tubes-manager.h		\
+ 	vinagre-tube-handler.c vinagre-tube-handler.h		\
