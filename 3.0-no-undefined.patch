@@ -1,0 +1,106 @@
+--- origsrc/vinagre-3.0.0/Makefile.am	2011-04-04 11:46:35.000000000 -0500
++++ src/vinagre-3.0.0/Makefile.am	2011-04-17 06:44:24.034097700 -0500
+@@ -6,6 +6,7 @@ DISTCHECK_CONFIGURE_FLAGS = --disable-sc
+ AM_CPPFLAGS = \
+ 	-I$(top_builddir) \
+ 	-I$(top_builddir)/vinagre \
++	-I$(top_srcdir) \
+ 	-I$(top_srcdir)/vinagre/view \
+ 	-DBINDIR=\"$(bindir)\" \
+ 	-DDATADIR=\"$(datadir)\" \
+@@ -74,7 +75,7 @@ INTROSPECTION_GIR_INCLUDES = \
+ 	PeasGtk-1.0
+ 
+ # The main library
+-noinst_LTLIBRARIES = libvinagre.la
++lib_LTLIBRARIES = libvinagre.la
+ 
+ handwritten_sources = \
+ 	vinagre/view/autoDrawer.c \
+@@ -210,7 +211,7 @@ librdp_la_SOURCES = \
+ 	plugins/rdp/vinagre-rdp-tab.c
+ 
+ librdp_la_LDFLAGS = $(PLUGIN_LIBTOOL_FLAGS)
+-librdp_la_LIBADD = $(VINAGRE_LIBS)
++librdp_la_LIBADD = libvinagre.la $(VINAGRE_LIBS)
+ endif
+ 
+ if VINAGRE_ENABLE_SPICE
+@@ -233,7 +234,7 @@ libspice_la_SOURCES = \
+ 	plugins/spice/vinagre-spice-tunnel.c
+ 
+ libspice_la_LDFLAGS = $(PLUGIN_LIBTOOL_FLAGS)
+-libspice_la_LIBADD = $(SPICE_LIBS)
++libspice_la_LIBADD = libvinagre.la $(SPICE_LIBS)
+ endif
+ 
+ if VINAGRE_ENABLE_SSH
+@@ -249,6 +250,7 @@ libssh_la_SOURCES = \
+ 	plugins/ssh/vinagre-ssh-tab.c
+ 
+ libssh_la_LDFLAGS = $(PLUGIN_LIBTOOL_FLAGS)
++libssh_la_LIBADD = libvinagre.la $(VINAGRE_LIBS)
+ endif
+ 
+ plugin_LTLIBRARIES = \
+@@ -278,7 +280,7 @@ libreversevnc_la_SOURCES = \
+ 	$(ifaddrs_sources)
+ 
+ libreversevnc_la_LDFLAGS = $(PLUGIN_LIBTOOL_FLAGS)
+-libreversevnc_la_LIBADD = $(VNC_LIBS)
++libreversevnc_la_LIBADD = libvnc.la libvinagre.la $(VNC_LIBS)
+ 
+ reversevncuidir = $(VINAGRE_PLUGINS_DATA_DIR)/reverse-vnc
+ dist_reversevncui_DATA = plugins/reverse-vnc/reverse-vnc.ui
+@@ -299,7 +301,7 @@ libvnc_la_SOURCES = \
+ 	plugins/vnc/vinagre-vnc-tunnel.c
+ 
+ libvnc_la_LDFLAGS = $(PLUGIN_LIBTOOL_FLAGS)
+-libvnc_la_LIBADD = $(VNC_LIBS)
++libvnc_la_LIBADD = libvinagre.la $(VNC_LIBS)
+ 
+ dist_plugin_DATA = plugins/im-status/im-status.js
+ 
+--- origsrc/vinagre-3.0.0/configure.ac	2011-04-04 12:06:35.000000000 -0500
++++ src/vinagre-3.0.0/configure.ac	2011-04-17 04:40:13.439948100 -0500
+@@ -25,7 +25,7 @@ AC_PROG_SED
+ AC_SUBST([VINAGRE_ABI_VERSION], [3.0])
+ AC_DEFINE_UNQUOTED([VINAGRE_ABI_VERSION], ["$VINAGRE_ABI_VERSION"], [Vinagre ABI version])
+ 
+-AC_SUBST([PLUGIN_LIBTOOL_FLAGS], ["-module -avoid-version"])
++AC_SUBST([PLUGIN_LIBTOOL_FLAGS], ["-module -avoid-version -no-undefined"])
+ AC_SUBST([VINAGRE_PLUGINS_DATA_DIR], ["$datadir/vinagre-$VINAGRE_ABI_VERSION/plugins"])
+ AC_SUBST([VINAGRE_PLUGINS_LIBS_DIR], ["$libdir/vinagre-$VINAGRE_ABI_VERSION/plugins"])
+ 
+@@ -193,7 +193,7 @@ AS_IF([test "x$have_panelapplet" = "xyes
+ AM_CONDITIONAL([VINAGRE_HAVE_PANELAPPLET], [test "x$have_panelapplet" = "xyes"])
+ 
+ # Check required libraries
+-PKG_CHECK_MODULES([VINAGRE], [$GLIB_DEPS $GTHREAD_DEPS $GTK_DEPS gnome-keyring-1 $XML2_DEPS $PEAS_DEPS $AVAHI_DEPS $TELEPATHY_GLIB_DEPS])
++PKG_CHECK_MODULES([VINAGRE], [$GLIB_DEPS $GTHREAD_DEPS $GTK_DEPS gnome-keyring-1 $XML2_DEPS $PEAS_DEPS $AVAHI_DEPS $SSH_DEPS $TELEPATHY_GLIB_DEPS])
+ 
+ PKG_CHECK_MODULES([VNC], [$GTK_VNC_DEPS $GTK_DEPS $XML2_DEPS])
+ 
+--- origsrc/vinagre-3.0.0/plugins/vnc/vinagre-vnc-connection.h	2011-03-04 06:25:48.000000000 -0600
++++ src/vinagre-3.0.0/plugins/vnc/vinagre-vnc-connection.h	2011-04-17 07:51:33.544572500 -0500
+@@ -51,9 +51,9 @@ struct _VinagreVncConnection
+ };
+ 
+ 
+-GType vinagre_vnc_connection_get_type (void) G_GNUC_CONST;
++G_MODULE_EXPORT GType vinagre_vnc_connection_get_type (void) G_GNUC_CONST;
+ 
+-VinagreConnection*  vinagre_vnc_connection_new (void);
++G_MODULE_EXPORT VinagreConnection*  vinagre_vnc_connection_new (void);
+ 
+ const gchar*	    vinagre_vnc_connection_get_desktop_name (VinagreVncConnection *conn);
+ void		    vinagre_vnc_connection_set_desktop_name (VinagreVncConnection *conn,
+@@ -80,7 +80,7 @@ void		    vinagre_vnc_connection_set_fd
+ 							     gint value);
+ 
+ GSocket *	    vinagre_vnc_connection_get_socket       (VinagreVncConnection *conn);
+-void		    vinagre_vnc_connection_set_socket       (VinagreVncConnection *conn,
++G_MODULE_EXPORT void    vinagre_vnc_connection_set_socket       (VinagreVncConnection *conn,
+ 							     GSocket *socket);
+ 
+ gint		    vinagre_vnc_connection_get_depth_profile (VinagreVncConnection *conn);

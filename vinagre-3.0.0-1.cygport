@@ -3,7 +3,7 @@ inherit gnome2
 DESCRIPTION="GNOME VNC client"
 HOMEPAGE="http://projects.gnome.org/vinagre/"
 
-PATCH_URI="2.30-no-undefined.patch"
+PATCH_URI="3.0-no-undefined.patch"
 
 PKG_NAMES="${PN} ${PN}-devel"
 PKG_HINTS="setup devel"
@@ -11,6 +11,8 @@ vinagre_CONTENTS="etc/ usr/bin/ usr/lib/vinagre*/ usr/share/"
 vinagre_devel_CONTENTS="usr/include/ usr/lib/lib* usr/lib/pkgconfig/"
 
 DIFF_EXCLUDES="vinagre.schemas.in"
+
+DEPS_PATH="/usr/lib/vinagre-3.0/plugins"
 
 CYGCONF_ARGS="
 	--libexecdir=/usr/lib/panel-2.0
