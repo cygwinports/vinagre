@@ -7,7 +7,7 @@ PATCH_URI="3.0-no-undefined.patch"
 
 PKG_NAMES="${PN} ${PN}-devel"
 PKG_HINTS="setup devel"
-vinagre_CONTENTS="etc/ usr/bin/ usr/lib/vinagre*/ usr/share/"
+vinagre_CONTENTS="etc/ usr/bin/ usr/lib/gnome-panel/ usr/lib/vinagre*/ usr/share/"
 vinagre_devel_CONTENTS="usr/include/ usr/lib/lib* usr/lib/pkgconfig/"
 
 DIFF_EXCLUDES="vinagre.schemas.in"
@@ -15,9 +15,8 @@ DIFF_EXCLUDES="vinagre.schemas.in"
 DEPS_PATH="/usr/lib/vinagre-3.0/plugins"
 
 CYGCONF_ARGS="
-	--libexecdir=/usr/lib/panel-2.0
+	--libexecdir=/usr/lib/gnome-panel/4.0
 	--disable-avahi
-	--disable-applet
 	--enable-ssh
 	--enable-telepathy
 "

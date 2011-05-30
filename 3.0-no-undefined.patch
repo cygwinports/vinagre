@@ -35,15 +35,16 @@
  endif
  
  if VINAGRE_ENABLE_SSH
-@@ -249,6 +250,7 @@ libssh_la_SOURCES = \
+@@ -249,7 +250,7 @@ libssh_la_SOURCES = \
  	plugins/ssh/vinagre-ssh-tab.c
  
  libssh_la_LDFLAGS = $(PLUGIN_LIBTOOL_FLAGS)
+-libssh_la_LIBADD = $(VINAGRE_LIBS)
 +libssh_la_LIBADD = libvinagre.la $(VINAGRE_LIBS)
  endif
  
  plugin_LTLIBRARIES = \
-@@ -278,7 +280,7 @@ libreversevnc_la_SOURCES = \
+@@ -278,7 +279,7 @@ libreversevnc_la_SOURCES = \
  	$(ifaddrs_sources)
  
  libreversevnc_la_LDFLAGS = $(PLUGIN_LIBTOOL_FLAGS)
@@ -52,7 +53,7 @@
  
  reversevncuidir = $(VINAGRE_PLUGINS_DATA_DIR)/reverse-vnc
  dist_reversevncui_DATA = plugins/reverse-vnc/reverse-vnc.ui
-@@ -299,7 +301,7 @@ libvnc_la_SOURCES = \
+@@ -299,7 +300,7 @@ libvnc_la_SOURCES = \
  	plugins/vnc/vinagre-vnc-tunnel.c
  
  libvnc_la_LDFLAGS = $(PLUGIN_LIBTOOL_FLAGS)
@@ -71,15 +72,6 @@
 +AC_SUBST([PLUGIN_LIBTOOL_FLAGS], ["-module -avoid-version -no-undefined"])
  AC_SUBST([VINAGRE_PLUGINS_DATA_DIR], ["$datadir/vinagre-$VINAGRE_ABI_VERSION/plugins"])
  AC_SUBST([VINAGRE_PLUGINS_LIBS_DIR], ["$libdir/vinagre-$VINAGRE_ABI_VERSION/plugins"])
- 
-@@ -193,7 +193,7 @@ AS_IF([test "x$have_panelapplet" = "xyes
- AM_CONDITIONAL([VINAGRE_HAVE_PANELAPPLET], [test "x$have_panelapplet" = "xyes"])
- 
- # Check required libraries
--PKG_CHECK_MODULES([VINAGRE], [$GLIB_DEPS $GTHREAD_DEPS $GTK_DEPS gnome-keyring-1 $XML2_DEPS $PEAS_DEPS $AVAHI_DEPS $TELEPATHY_GLIB_DEPS])
-+PKG_CHECK_MODULES([VINAGRE], [$GLIB_DEPS $GTHREAD_DEPS $GTK_DEPS gnome-keyring-1 $XML2_DEPS $PEAS_DEPS $AVAHI_DEPS $SSH_DEPS $TELEPATHY_GLIB_DEPS])
- 
- PKG_CHECK_MODULES([VNC], [$GTK_VNC_DEPS $GTK_DEPS $XML2_DEPS])
  
 --- origsrc/vinagre-3.0.0/plugins/vnc/vinagre-vnc-connection.h	2011-03-04 06:25:48.000000000 -0600
 +++ src/vinagre-3.0.0/plugins/vnc/vinagre-vnc-connection.h	2011-04-17 07:51:33.544572500 -0500
