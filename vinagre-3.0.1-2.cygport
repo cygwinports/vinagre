@@ -16,7 +16,8 @@ DEPS_PATH="/usr/lib/vinagre-3.0/plugins"
 
 CYGCONF_ARGS="
 	--libexecdir=/usr/lib/gnome-panel/4.0
-	--disable-avahi
+	--enable-rdp
 	--enable-ssh
-	--enable-telepathy
+	--with-avahi
+	--with-telepathy
 "
