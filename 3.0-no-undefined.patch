@@ -1,13 +1,5 @@
 --- origsrc/vinagre-3.0.0/Makefile.am	2011-04-04 11:46:35.000000000 -0500
 +++ src/vinagre-3.0.0/Makefile.am	2011-04-17 06:44:24.034097700 -0500
-@@ -6,6 +6,7 @@ DISTCHECK_CONFIGURE_FLAGS = --disable-sc
- AM_CPPFLAGS = \
- 	-I$(top_builddir) \
- 	-I$(top_builddir)/vinagre \
-+	-I$(top_srcdir) \
- 	-I$(top_srcdir)/vinagre/view \
- 	-DBINDIR=\"$(bindir)\" \
- 	-DDATADIR=\"$(datadir)\" \
 @@ -74,7 +75,7 @@ INTROSPECTION_GIR_INCLUDES = \
  	PeasGtk-1.0
  
