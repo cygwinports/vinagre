@@ -1,0 +1,28 @@
+inherit gnome2
+
+DESCRIPTION="GNOME VNC client"
+HOMEPAGE="http://projects.gnome.org/vinagre/"
+
+PATCH_URI="3.2-plugins.patch
+	   3.2-cygwin.patch"
+
+DEPEND="gnome-common gnome-doc-utils
+	pkgconfig(avahi-gobject)
+	pkgconfig(avahi-ui-gtk3)
+	pkgconfig(dbus-glib-1)
+	pkgconfig(gnome-keyring-1)
+	pkgconfig(gtk-vnc-2.0)
+	pkgconfig(spice-client-gtk-3.0)
+	pkgconfig(telepathy-glib)
+	pkgconfig(vte-2.90)
+	pkgconfig(libxml-2.0)"
+
+CYGCONF_ARGS="
+	--enable-rdp
+	--enable-spice
+	--enable-ssh
+	--with-avahi
+	--with-telepathy
+	RDESKTOP_PROGRAM=/usr/bin/rdesktop
+	SSH_PROGRAM=/usr/bin/ssh
+"

@@ -1,5 +1,0 @@
-category: Gnome Net
-requires: vinagre libavahi-gobject-devel libavahi-ui-gtk3-devel libdbus-glib_1-devel libgirepository1.0-devel libglib2.0-devel libgnome-keyring-devel libgtk3-devel libpeas1.0-devel libtelepathy-glib-devel libxml2-devel
-external-source: vinagre
-sdesc: "GNOME VNC and SSH client (plugin development)"
-ldesc: "This is vinagre, a VNC and SSH client for the GNOME Desktop."
