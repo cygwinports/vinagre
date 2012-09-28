@@ -1,7 +1,17 @@
 inherit gnome2
 
-DESCRIPTION="GNOME VNC client"
+NAME="vinagre"
+VERSION=3.4.2
+RELEASE=1
+CATEGORY="Gnome Net"
+SUMMARY="GNOME VNC/RDP/SSH/SPICE client"
+DESCRIPTION="Vinagre is a remote desktop viewer application for the GNOME
+desktop which uses Virtual Network Computing (VNC), and other protocols, to
+remotely control another computer. Vinagre can be used to control another
+computer and interact with its desktop."
 HOMEPAGE="http://projects.gnome.org/vinagre/"
+
+REQUIRES="openssh rdesktop"
 
 DEPEND="gnome-common gnome-doc-utils
 	pkgconfig(avahi-gobject)
