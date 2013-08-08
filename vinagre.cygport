@@ -1,7 +1,7 @@
 inherit gnome2
 
 NAME="vinagre"
-VERSION=3.6.2
+VERSION=3.8.3
 RELEASE=1
 CATEGORY="GNOME Net"
 SUMMARY="GNOME VNC/RDP/SSH/SPICE client"
