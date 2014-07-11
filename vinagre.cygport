@@ -2,14 +2,25 @@ inherit gnome2
 
 NAME="vinagre"
 VERSION=3.10.2
-RELEASE=1
-CATEGORY="GNOME Net"
+RELEASE=2
+CATEGORY="Net"
 SUMMARY="GNOME VNC/RDP/SSH/SPICE client"
 DESCRIPTION="Vinagre is a remote desktop viewer application for the GNOME
 desktop which uses Virtual Network Computing (VNC), and other protocols, to
 remotely control another computer. Vinagre can be used to control another
 computer and interact with its desktop."
 HOMEPAGE="http://projects.gnome.org/vinagre/"
+
+# fixes command-line syntax for freerdp-1.2, but no password handling
+#PATCH_URI="https://bug724136.bugzilla-attachments.gnome.org/attachment.cgi?id=268819#/vinagre-3.10.2-freerdp11.patch"
+# just added to upstream git master, but needs an #include <sys/select.h>
+#PATCH_URI="https://git.gnome.org/browse/vinagre/patch/?id=7ac600b#/vinagre-freerdp-api.patch"
+
+# for now, just revert to using rdesktop
+CYGPORT_USE_UNSTABLE_API=1
+src_unpack_hook() {
+	sed -i -e 's/xfreerdp/rdesktop/g' plugins/rdp/vinagre-rdp-tab.c po/*.po
+}
 
 REQUIRES="openssh rdesktop"
 
@@ -30,6 +41,5 @@ CYGCONF_ARGS="
 	--enable-ssh
 	--with-avahi
 	--with-telepathy
-	RDESKTOP_PROGRAM=/usr/bin/rdesktop
 	SSH_PROGRAM=/usr/bin/ssh
 "
