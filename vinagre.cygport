@@ -11,6 +11,8 @@ remotely control another computer. Vinagre can be used to control another
 computer and interact with its desktop."
 HOMEPAGE="http://projects.gnome.org/vinagre/"
 
+PATCH_URI="3.14.3-cygwin-compile.patch"
+
 REQUIRES="openssh"
 
 DEPEND="gnome-common gnome-doc-utils
