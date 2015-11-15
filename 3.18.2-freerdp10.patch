@@ -1,0 +1,28 @@
+--- origsrc/vinagre-3.18.2/plugins/rdp/vinagre-rdp-tab.c	2015-11-15 16:58:19.238939100 -0600
++++ src/vinagre-3.18.2/plugins/rdp/vinagre-rdp-tab.c	2015-11-15 17:29:04.567777000 -0600
+@@ -1108,12 +1108,14 @@ open_freerdp (VinagreRdpTab *rdp_tab)
+   settings->encryption_method = ENCRYPTION_METHOD_40BIT | ENCRYPTION_METHOD_128BIT | ENCRYPTION_METHOD_FIPS;
+   settings->encryption_level = ENCRYPTION_LEVEL_CLIENT_COMPATIBLE;
+ #endif
++#if HAVE_FREERDP_1_1
+ #include <freerdp/version.h>
+ #if (FREERDP_VERSION_MAJOR == 1 && FREERDP_VERSION_MINOR >= 2 && FREERDP_VERSION_REVISION >= 1)
+   settings->UseRdpSecurityLayer = FALSE;
+ #else
+   settings->DisableEncryption = FALSE;
+ #endif
++#endif
+ 
+   /* Set display size */
+ #if HAVE_FREERDP_1_1
+@@ -1153,8 +1155,10 @@ open_freerdp (VinagreRdpTab *rdp_tab)
+   freerdp_kbd_init (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), KBD_US);
+ #endif
+ 
++#if HAVE_FREERDP_1_1
+   /* Allow font smoothing by default */
+   settings->AllowFontSmoothing = TRUE;
++#endif
+ 
+   /* Setup display for FreeRDP session */
+   priv->display = gtk_drawing_area_new ();

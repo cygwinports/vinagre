@@ -1,7 +1,7 @@
 inherit gnome2
 
 NAME="vinagre"
-VERSION=3.14.3
+VERSION=3.18.2
 RELEASE=1
 CATEGORY="Net"
 SUMMARY="GNOME VNC/RDP/SSH/SPICE client"
@@ -11,7 +11,10 @@ remotely control another computer. Vinagre can be used to control another
 computer and interact with its desktop."
 HOMEPAGE="http://projects.gnome.org/vinagre/"
 
-PATCH_URI="3.14.3-cygwin-compile.patch"
+PATCH_URI="
+	3.14.3-cygwin-compile.patch
+	3.18.2-freerdp10.patch
+"
 
 REQUIRES="openssh"
 
